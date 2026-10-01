@@ -1,7 +1,7 @@
 /// <reference types="node" />
 
 import { defineConfig, devices } from '@playwright/test';
-
+import 'dotenv/config';
 export default defineConfig({
   // Directorul unde Playwright va căuta testele
   testDir: './tests',
