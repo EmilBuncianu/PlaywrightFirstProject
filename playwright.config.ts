@@ -10,6 +10,8 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: 'https://saucedemo.com', // Setează URL-ul de bază ca să nu-l mai repeți în teste
+    screenshot: 'only-on-failure', // Salvează screenshot automat dacă testul pică
+    video: 'retain-on-failure',     // Înregistrează video, dar îl păstrează doar dacă testul pică
     trace: 'on-first-retry',
   },
 
