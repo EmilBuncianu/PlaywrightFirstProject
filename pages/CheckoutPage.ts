@@ -1,14 +1,15 @@
-import { Locator, Page } from '@playwright/test';
+// pages/CheckoutPage.ts
+import { Page, Locator } from '@playwright/test';
 
 export class CheckoutPage {
-    private readonly page: Page;
-    private readonly checkoutButton: Locator;
-    private readonly firstNameInput: Locator;
-    private readonly lastNameInput: Locator;
-    private readonly postalCodeInput: Locator;
-    private readonly continueButton: Locator;
-    private readonly finishButton: Locator;
-    private readonly backToProductsButton: Locator;
+    readonly page: Page;
+    readonly checkoutButton: Locator;
+    readonly firstNameInput: Locator;
+    readonly lastNameInput: Locator;
+    readonly postalCodeInput: Locator;
+    readonly continueButton: Locator;
+    readonly finishButton: Locator;
+    readonly errorContainer: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -18,17 +19,19 @@ export class CheckoutPage {
         this.postalCodeInput = page.locator('[data-test="postalCode"]');
         this.continueButton = page.locator('[data-test="continue"]');
         this.finishButton = page.locator('[data-test="finish"]');
-        this.backToProductsButton = page.locator('[data-test="back-to-products"]');
+        this.errorContainer = page.locator('[data-test="error"]');
     }
 
-// pages/CheckoutPage.ts
-    async completeCheckout(firstName: string, lastName: string, postalCode: string) {
-        await this.checkoutButton.click(); // Dacă fluxul tău pornește din coș
-        await this.firstNameInput.fill(firstName);
-        await this.lastNameInput.fill(lastName);
-        await this.postalCodeInput.fill(postalCode);
-        await this.continueButton.click();
-        await this.finishButton.click();
+async fillCheckoutInformation(firstName: string, lastName: string, postalCode: string) {
+    await this.checkoutButton.click(); // Deschide formularul din coș
+    await this.firstNameInput.fill(firstName);
+    await this.lastNameInput.fill(lastName);
+    await this.postalCodeInput.fill(postalCode);
+    await this.continueButton.click(); // Se apasă butonul din dreapta jos
 }
 
+async completeCheckout(firstName: string, lastName: string, postalCode: string) {
+    await this.fillCheckoutInformation(firstName, lastName, postalCode);
+    await this.finishButton.click(); // Folosit doar în testul de succes (flow-ul complet)
+}
 }

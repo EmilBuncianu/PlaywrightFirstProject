@@ -50,19 +50,20 @@ test.describe('SauceDemo - Full Automation Suite', () => {
         await expect(page).toHaveURL(/.*checkout-complete.html/);
     });
 
-    // SCENARIU NEGATIV NOU: Câmpuri lipsă la Checkout
-    test('Should display error when checkout form is incomplete', async ({ page }) => {
-        await loginPage.navigateToLogin();
-        await loginPage.login(process.env.SAUCE_USERNAME!, process.env.SAUCE_PASSWORD!);
+test('Should display error when checkout form is incomplete', async ({ page }) => {
+    await loginPage.navigateToLogin();
+    await loginPage.login(process.env.SAUCE_USERNAME!, process.env.SAUCE_PASSWORD!);
 
-        await inventoryPage.addMultipleProductsFlow();
-        
-        // Trimitem date goale pentru a forța o eroare de validare
-        await checkoutPage.completeCheckout('', '', '');
+    await inventoryPage.addMultipleProductsFlow();
+    
+    // Apelăm DOAR completarea formularului (fără pasul de Finish)
+    await checkoutPage.fillCheckoutInformation('', '', '');
 
-        const errorContainer = page.locator('[data-test="error"]');
-        await expect(errorContainer).toBeVisible();
-        await expect(errorContainer).toContainText('Error: First Name is required');
-    });
+    // Validăm direct eroarea din imagine
+    const errorContainer = page.locator('[data-test="error"]');
+    await expect(errorContainer).toBeVisible();
+    await expect(errorContainer).toContainText('Error: First Name is required');
+});
+
     
 });
