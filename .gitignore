@@ -1,0 +1,4 @@
+node_modules/
+.test-cahe/
+playwright-report/
+test-results/
