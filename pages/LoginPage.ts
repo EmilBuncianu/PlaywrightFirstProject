@@ -13,9 +13,10 @@ export class LoginPage {
         this.loginButton = page.locator('[data-test="login-button"]');
     }
 
-    async navigateToLogin() {
-        await this.page.goto('/');
-    }
+async navigateToLogin() {
+    // Playwright va folosi automat URL-ul setat în config
+    await this.page.goto('/'); 
+}
 
     async login(username: string, password: string) {
         await this.usernameInput.fill(username);
